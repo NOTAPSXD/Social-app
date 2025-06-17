@@ -1,4 +1,4 @@
-import { Card, Container, Stack, Tab, Tabs } from "@mui/material";
+import { Box, Card, Container, Stack, Tab, Tabs, Paper } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { getUser, updateUser } from "../../api/users";
@@ -94,51 +94,92 @@ const ProfileView = () => {
   }
 
   return (
-    <Container>
-      <Navbar />
-
-      <GridLayout
-        left={
-          <>
-            <MobileProfile
-              profile={profile}
-              editing={editing}
-              handleSubmit={handleSubmit}
-              handleEditing={handleEditing}
-              handleMessage={handleMessage}
-              validate={validate}
-            />
-            <Stack spacing={2}>
-              {profile ? (
-                <>
-                  <ProfileTabs tab={tab} setTab={setTab} />
-
-                  {tabs[tab]}
-                </>
-              ) : (
-                <Loading />
-              )}
-              {error && <ErrorAlert error={error} />}
+    <Box
+      sx={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)",
+        py: { xs: 1, md: 3 },
+      }}
+    >
+      <Container maxWidth="lg" sx={{ px: { xs: 0, md: 2 } }}>
+        <Navbar />
+        <GridLayout
+          left={
+            <Paper
+              elevation={8}
+              sx={{
+                borderRadius: 4,
+                overflow: "hidden",
+                mt: 3,
+                mb: 3,
+                px: { xs: 1, md: 3 },
+                py: { xs: 2, md: 4 },
+                background: "rgba(255,255,255,0.97)",
+                boxShadow: "0 8px 32px #2575fc33",
+              }}
+            >
+              <MobileProfile
+                profile={profile}
+                editing={editing}
+                handleSubmit={handleSubmit}
+                handleEditing={handleEditing}
+                handleMessage={handleMessage}
+                validate={validate}
+              />
+              <Stack spacing={2}>
+                {profile ? (
+                  <>
+                    <ProfileTabs tab={tab} setTab={setTab} />
+                    {tabs[tab]}
+                  </>
+                ) : (
+                  <Loading />
+                )}
+                {error && <ErrorAlert error={error} />}
+              </Stack>
+            </Paper>
+          }
+          right={
+            <Stack spacing={2} sx={{ mt: 3 }}>
+              <Paper
+                elevation={8}
+                sx={{
+                  borderRadius: 4,
+                  overflow: "hidden",
+                  px: { xs: 1, md: 3 },
+                  py: { xs: 2, md: 4 },
+                  background: "rgba(255,255,255,0.97)",
+                  boxShadow: "0 8px 32px #2575fc33",
+                }}
+              >
+                <Profile
+                  profile={profile}
+                  editing={editing}
+                  handleSubmit={handleSubmit}
+                  handleEditing={handleEditing}
+                  handleMessage={handleMessage}
+                  validate={validate}
+                />
+              </Paper>
+              <Paper
+                elevation={6}
+                sx={{
+                  borderRadius: 4,
+                  overflow: "hidden",
+                  px: { xs: 1, md: 3 },
+                  py: { xs: 2, md: 3 },
+                  background: "rgba(255,255,255,0.95)",
+                  boxShadow: "0 4px 16px #2575fc22",
+                }}
+              >
+                <FindUsers />
+              </Paper>
+              <Footer />
             </Stack>
-          </>
-        }
-        right={
-          <Stack spacing={2}>
-            <Profile
-              profile={profile}
-              editing={editing}
-              handleSubmit={handleSubmit}
-              handleEditing={handleEditing}
-              handleMessage={handleMessage}
-              validate={validate}
-            />
-
-            <FindUsers />
-            <Footer />
-          </Stack>
-        }
-      />
-    </Container>
+          }
+        />
+      </Container>
+    </Box>
   );
 };
 
